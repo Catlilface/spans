@@ -43,7 +43,14 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Setup Node
+      - name: Checkout 2
+        uses: actions/checkout@v4
+      - name: Build with Jekyll 2
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+      - name: Setup Node 2
         uses: actions/upload-pages-artifact@v3
         with:
           node-version: "20"
