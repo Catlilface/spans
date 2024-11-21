@@ -1,12 +1,14 @@
 import { Input, SocialButton } from "components";
 import { useState } from "react";
 import { AppleIcon, FacebookIcon, GoogleIcon } from "assets/icons";
-import { authSlice, authStore } from "@/store";
+import { AuthRootState, authSlice, authStore } from "@/store";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const AuthForm = () => {
   const [signUp, setSignUp] = useState<boolean>(false);
   const navigate = useNavigate();
+  const { email, name } = useSelector((state: AuthRootState) => state.user);
 
   const handleAuthentification = () => {
     authStore.dispatch({
@@ -54,13 +56,29 @@ const AuthForm = () => {
       </div>
       <div className="flex flex-col gap-4">
         <div className="mb-6">
-          <Input label="What's your name?*" placeholder="Maximus" password />
+          <Input
+            label="What's your name?*"
+            placeholder="Maximus"
+            password
+            value={name}
+            onChange={(e) =>
+              authStore.dispatch(
+                authSlice.actions.setUser({ name: e.target.value }),
+              )
+            }
+          />
         </div>
         <div className="mb-6">
           <Input
             label="Your Email*"
             placeholder="ivanovich@gmail.coms"
             password
+            value={email}
+            onChange={(e) =>
+              authStore.dispatch(
+                authSlice.actions.setUser({ email: e.target.value }),
+              )
+            }
           />
         </div>
       </div>
