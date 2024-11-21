@@ -41,3 +41,8 @@ jobs:
           node-version: "20"
           cache: "npm"
       - run: npm install && npm run build
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - run: npm run lint
