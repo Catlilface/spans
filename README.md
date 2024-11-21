@@ -2,7 +2,7 @@
 
 ## Requirements
 
-- node ~18.17.1
+- node ~20
 
 ## Run
 
