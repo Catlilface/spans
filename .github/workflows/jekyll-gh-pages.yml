@@ -40,4 +40,4 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-      - run: npm run fly
+      - run: npm install && npm run build
