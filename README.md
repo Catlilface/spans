@@ -8,7 +8,7 @@
 
 ```bash
 # Execute and Go!
-npm run fly 
+npm run fly
 
 # Install dependencies and run dev server
 npm install

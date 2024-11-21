@@ -15,8 +15,9 @@ const GalleryUpload = () => {
   const [isDragging, setIsDragging] = useState(false);
 
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-    const url = URL.createObjectURL(files?.item(0) as Blob);
+    const file = event.target.files?.item(0) as Blob;
+
+    const url = URL.createObjectURL(file);
 
     dispatch({ type: "uploadeImage", payload: { message: [url] } });
 
@@ -30,7 +31,18 @@ const GalleryUpload = () => {
     event.stopPropagation();
 
     const files = event.dataTransfer.files;
-    const url = URL.createObjectURL(files?.item(0) as Blob);
+    const file = files?.item(0) as Blob;
+    const url = URL.createObjectURL(file);
+
+    if (!file || !file.type.includes("image")) {
+      toast({
+        title: "Invalid file type",
+        description: "Please upload a valid image file",
+      });
+      setIsDragging(false);
+
+      return;
+    }
 
     dispatch({ type: "uploadeImage", payload: { message: [url] } });
     setIsDragging(false);
@@ -72,6 +84,7 @@ const GalleryUpload = () => {
           className="hidden"
           ref={inputRef}
           onChange={handleInput}
+          accept="image/*"
         />
       </label>
     </div>
