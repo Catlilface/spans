@@ -14,7 +14,7 @@ const GalleryGrid = () => {
       </div>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 mt-6">
         {dogs.map((image, index) => (
-          <GalleryImage image={image} key={index} />
+          <GalleryImage image={image} key={image} />
         ))}
       </div>
     </div>
