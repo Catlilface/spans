@@ -29,7 +29,9 @@ const GalleryImage = ({ image }: GalleryImageProps) => {
   };
 
   useGSAP(() => {
-    gsap.from(likeRef.current, { scale: 1.2, duration: 0.3 });
+    if (likeRef.current) {
+      gsap.from(likeRef.current, { scale: 1.2, duration: 0.3 });
+    }
   }, [liked]);
 
   return (
