@@ -17,7 +17,7 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        path: "/image/:breed/:name",
+        path: "/image/:name",
         element: <GalleryModal />,
       },
     ],

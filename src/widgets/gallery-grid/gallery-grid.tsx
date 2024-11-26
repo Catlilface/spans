@@ -1,10 +1,22 @@
-import { RootState, useGetImagesQuery } from "@/store/gallery/store";
+import {
+  addImages,
+  getAllImages,
+  useGetImagesQuery,
+} from "@/store/gallery/store";
 import { GalleryControls, GalleryImage } from "components";
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const GalleryGrid = () => {
-  useGetImagesQuery("hound");
-  const dogs = useSelector((state: RootState) => state.uploadeImage);
+  const { data } = useGetImagesQuery("hound");
+  const images = useSelector(getAllImages);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (images.length === 0 && data?.length) {
+      dispatch(addImages(data));
+    }
+  }, [data, dispatch, images.length]);
 
   return (
     <div className="bg-white p-6 rounded-[32px] w-full">
@@ -13,7 +25,7 @@ const GalleryGrid = () => {
         <GalleryControls />
       </div>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 mt-6">
-        {dogs.map((image, index) => (
+        {images.map((image) => (
           <GalleryImage image={image} key={image} />
         ))}
       </div>

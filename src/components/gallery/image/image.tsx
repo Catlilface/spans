@@ -8,9 +8,7 @@ import { Skeleton } from "@/components/shadcn/skeleton";
 import { Img, resource } from "react-suspense-img";
 import { useDispatch } from "react-redux";
 import { toast } from "sonner";
-import { ToastAction } from "@/components/shadcn/toast";
-import { Action, Dispatch } from "@reduxjs/toolkit";
-import { CheckIcon } from "lucide-react";
+import { deleteImage } from "@/store";
 
 const GalleryImage = ({ image }: GalleryImageProps) => {
   const [liked, setLiked] = useState(false);
@@ -19,21 +17,19 @@ const GalleryImage = ({ image }: GalleryImageProps) => {
 
   const params = image.split("/");
   const imageName = params.pop();
-  const breed = params.pop();
 
   resource.preloadImage(image);
 
   const handleDelete = () => {
-    dispatch({ type: "uploadeImage", payload: { deleteName: image } });
+    dispatch(deleteImage(image));
 
     toast("Image deleted", {
       description: `Image "${imageName}" has been successfully deleted from the gallery`,
-      action: <ToastActionUndo image={image} dispatch={dispatch} />,
     });
   };
 
   useGSAP(() => {
-    gsap.from(likeRef.current, { scale: 1.2 });
+    gsap.from(likeRef.current, { scale: 1.2, duration: 0.3 });
   }, [liked]);
 
   return (
@@ -51,7 +47,7 @@ const GalleryImage = ({ image }: GalleryImageProps) => {
         >
           <LikeButtonIcon liked={liked} />
         </button>
-        <Link to={`/image/${breed}/${imageName}`}>
+        <Link to={`/image/${imageName}`}>
           <Img
             src={image}
             alt="dog"
@@ -75,37 +71,6 @@ const LikeButtonIcon = ({ liked }: { liked: boolean }) => {
   }
 
   return <LikeIcon />;
-};
-
-const ToastActionUndo = ({
-  image,
-  dispatch,
-}: {
-  image: string;
-  dispatch: Dispatch<Action<string>>;
-}) => {
-  const [isUndone, setIsUndone] = useState(false);
-
-  return (
-    <ToastAction
-      disabled={isUndone}
-      altText="Undo"
-      onClick={() => {
-        dispatch({ type: "uploadeImage", payload: { message: [image] } });
-
-        setIsUndone(true);
-      }}
-    >
-      {isUndone ? (
-        <div className="flex items-center gap-2">
-          Undone
-          <CheckIcon />
-        </div>
-      ) : (
-        "Undo"
-      )}
-    </ToastAction>
-  );
 };
 
 export default GalleryImage;

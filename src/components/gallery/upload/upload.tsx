@@ -1,4 +1,6 @@
 import { toast } from "@/hooks/use-toast";
+import { addImages } from "@/store";
+// import { addImage } from "@/store";
 import { UploadIcon } from "assets/icons";
 import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -19,7 +21,7 @@ const GalleryUpload = () => {
 
     const url = URL.createObjectURL(file);
 
-    dispatch({ type: "uploadeImage", payload: { message: [url] } });
+    dispatch(addImages([url]));
 
     toast({
       title: "Image uploaded",
@@ -44,7 +46,7 @@ const GalleryUpload = () => {
       return;
     }
 
-    dispatch({ type: "uploadeImage", payload: { message: [url] } });
+    dispatch(addImages([url]));
     setIsDragging(false);
 
     toast({
